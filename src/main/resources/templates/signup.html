@@ -1,0 +1,21 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/signup}" method="post" th:object="${user}">
+        <fieldset>
+            <legend>Create your account</legend>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" th:field="*{username}"/>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" th:field="*{password}"/>
+            <div class="form-actions">
+                <button type="submit" class="btn">Sign up</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

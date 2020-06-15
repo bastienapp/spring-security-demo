@@ -17,13 +17,7 @@ import java.util.Set;
 public class SecurityApplication implements CommandLineRunner {
 
 	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
 	private RoleRepository roleRepository;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SecurityApplication.class, args);
@@ -31,18 +25,11 @@ public class SecurityApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		roleRepository.deleteAll();
-		Role userRole = roleRepository.save(new Role("ROLE_USER"));
-		Role adminRole = roleRepository.save(new Role("ROLE_ADMIN"));
-
-		Set<Role> userRoles = new HashSet<>();
-		userRoles.add(userRole);
-		Set<Role> adminRoles = new HashSet<>();
-		adminRoles.add(userRole);
-		adminRoles.add(adminRole);
-
-		userRepository.deleteAll();
-		userRepository.save(new User("hibernateuser", passwordEncoder.encode("hibernate123"), userRoles));
-		userRepository.save(new User("hibernateadmin", passwordEncoder.encode("hibadmin123"), adminRoles));
+		if (roleRepository.findByName("ROLE_USER") == null) {
+			roleRepository.save(new Role("ROLE_USER"));
+		}
+		if (roleRepository.findByName("ROLE_ADMIN") == null) {
+			roleRepository.save(new Role("ROLE_ADMIN"));
+		}
 	}
 }
