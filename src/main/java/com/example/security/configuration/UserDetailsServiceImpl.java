@@ -1,5 +1,6 @@
 package com.example.security.configuration;
 
+import com.example.security.entity.Role;
 import com.example.security.entity.User;
 import com.example.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         User user = optionalUser.get();
 
-        Set<GrantedAuthority> grantedAuthorities = new HashSet< >();
-        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
-
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        for (Role role: user.getRoles()) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 grantedAuthorities);
     }
