@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@RestController
+@Controller
 public class LoginController {
 
     @Autowired
@@ -33,12 +34,14 @@ public class LoginController {
     }
 
     @GetMapping("/")
+    @ResponseBody
     public String getUser() {
         String username = securityService.findLoggedInUsername();
         return "Welcome " + username;
     }
 
     @GetMapping("/admin")
+    @ResponseBody
     public String getAdmin() {
         return "Welcome Admin";
     }
